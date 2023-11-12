@@ -1,5 +1,5 @@
 export const MONTHS = {
-  1: "janvier",
+  0: "janvier",
   2: "février",
   3: "mars",
   4: "avril",
