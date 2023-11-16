@@ -7,9 +7,11 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
+
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
-    new Date(evtA.date) > new Date(evtB.date) ? -1 : 1
+    new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
   );
+ 
   const nextCard = () => {
     setTimeout(
       () => setIndex(index < byDateDesc.length -1 ? index + 1 : 0),
@@ -19,12 +21,21 @@ const Slider = () => {
   useEffect(() => {
     nextCard();
   });
+  const changeCard = (idx) => {
+    setIndex(idx);
+  }
+
+  function generateUniqueKey() {
+    return Math.random().toString(36);
+  }
+
+
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
         <>
           <div
-            key={event.title}
+           key={`${event.date}-${generateUniqueKey()}`}
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
@@ -40,12 +51,13 @@ const Slider = () => {
           </div>
           <div className="SlideCard__paginationContainer">
             <div className="SlideCard__pagination">
-              {byDateDesc.map((_, radioIdx) => (
+              {byDateDesc.map((radio, radioIdx) => (
                 <input
-                  key={`${event.id}`}
+                  key={generateUniqueKey()}
                   type="radio"
                   name="radio-button"
-                  checked={idx === radioIdx}
+                  checked={index === radioIdx}
+                  onChange={() => changeCard(radioIdx)}
                 />
               ))}
             </div>
