@@ -14,13 +14,12 @@ import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
   const { data } = useData();
-  // recuperer la dernier image du data
-  const last =
-    data && data.events.length > 0
-      ? data.events[data.events.length - 1]
-      : null;
+  const last = 
+  data?.events
+  .sort((evtA, evtB) => new Date(evtB.date) - new Date(evtA.date))
+[0];
 
-  
+      
   return <>
     <header>
       <Menu />
@@ -122,33 +121,36 @@ const Page = () => {
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
-        {last && (
-            <EventCard
-              imageSrc={last.cover}
-              imageAlt={last.description}
-              title={last.title}
-              date={new Date(last.date)}
-              small
-              label={last.type}
-            />
-          )}
+{/* On ajoute "last" pour supprimer les erreurs "undefined" de la console  => Avec l'opérateur "&&", on restitue conditionnellement le composant
+*/}
+        {last &&(
+          <EventCard
+          imageSrc={last?.cover}
+          title={last?.title}
+          date={new Date(last?.date)}
+          small
+          label={last?.type}
+
+        />
+        )} 
       </div>
+
       <div className="col contact">
         <h3>Contactez-nous</h3>
         <address>45 avenue de la République, 75000 Paris</address>
         <div>01 23 45 67 89</div>
-        <div>contact@77events.com</div>
+        <div> <a href= "mailto:contact@77events.com">contact@77events.com</a></div>
         <div>
-          <a href="#twitch">
+          <a href="https://www.twitch.tv/">
             <Icon name="twitch" />
           </a>
-          <a href="#facebook">
+          <a href="https://www.facebook.com/">
             <Icon name="facebook" />
           </a>
-          <a href="#twitter">
+          <a href="https://twitter.com/">
             <Icon name="twitter" />
           </a>
-          <a href="#youtube">
+          <a href="https://www.youtube.com/">
             <Icon name="youtube" />
           </a>
         </div>

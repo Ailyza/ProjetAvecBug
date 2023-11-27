@@ -9,8 +9,8 @@ const Slider = () => {
   const [index, setIndex] = useState(0);
 
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
-    new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
-  );
+    (new Date(evtA.date) < new Date(evtB.date) ? -1 : 1))
+    .reverse();
  
   const nextCard = () => {
     setTimeout(
@@ -26,8 +26,9 @@ const Slider = () => {
   }
 
   function generateUniqueKey() {
-    return Math.random().toString(36);
+    return Math.random().toString(36).substring(2) + Date.now().toString(36); 
   }
+
 
 
   return (
